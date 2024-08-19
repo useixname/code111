@@ -100,7 +100,7 @@ int main(){
     create(L,n);
     a.push_back({0,0});
     for(int i=1;i<=n;i++){
-        a.push_back({b[i],b[i+1]});
+        a.push_back({b[i],b[i+1]});    
         //cout<<a[i].first<<" "<<a[i].second<<'\n';
     }
     //print_link(L,n);

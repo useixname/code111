@@ -11,14 +11,14 @@ int ne[N];
 int main(){
     cin >> S+1 >> P+1;
     m = strlen(S+1), n = strlen(P+1);
-    // 计算next函数
+    // next数组
     ne[1] = 0;
     for(int i = 2, j = 0; i <= n; i ++){
         while(j && P[i] != P[j+1]) j = ne[j];
-        if(P[i] == P[j+1]) j ++; 
-        ne[i] = j;
+        if(P[i] == P[j+1]) ne[i]=++j; 
+        // ne[i] = j;
     }
-    // KMP匹配
+    // KMP
     for(int i = 1, j = 0; i <= m; i ++){
         while(j && S[i] != P[j+1]) j = ne[j];
         if(S[i] == P[j+1]) j ++;

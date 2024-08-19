@@ -1,37 +1,24 @@
-#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
-const int N=55;
-string s1,s2;
+
+const int N=505;
 int a[N],b[N],c[N];
+int la,lb,lc;
 
-void jia(string s1,string s2){
-    int n=s1.length(),m=s2.length();
-    int len=max(n,m);
-    for(int i=n;i>=1;i--){
-        a[i]=s1[n-i]-'0';
-    }
-    for(int i=m;i>=1;i--){
-        b[i]=s2[m-i]-'0';
-    }
-    int w=0,flag=0;
-    for(int i=1;i<=len;i++){
-        c[i]=(a[i]+b[i])+w;
-        if(i==len&&c[i]>=10){
-            flag=1;
-        }
-        w=c[i]/10;
-        c[i]%=10;
-    }
-    if(flag==1){
-        c[len+1]=1;
-    }
-    for(int i=len+flag;i>=1;i--){
-        cout<<c[i];
-    }
+void add(int a[],int b[],int c[]){ //a+b=c
+  for(int i=1; i<=lc; i++){
+    c[i]+=a[i]+b[i]; //求和
+    c[i+1]+=c[i]/10; //进位
+    c[i]%=10;        //存余
+  }
+  if(c[lc+1]) lc++;  //最高位
 }
-
 int main(){
-    cin>>s1>>s2;
-    jia(s1,s2);
-    return 0;
+  string sa,sb; cin>>sa>>sb;
+  la=sa.size(),lb=sb.size(),lc=max(la,lb);
+  for(int i=1; i<=la; i++) a[i]=sa[la-i]-'0';
+  for(int i=1; i<=lb; i++) b[i]=sb[lb-i]-'0';
+  add(a,b,c);
+  for(int i=lc; i; i--) printf("%d",c[i]);
+  return 0;
 }

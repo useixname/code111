@@ -2,8 +2,8 @@
 #include<iostream>
 using namespace std;
 
-const int N=1e5+10;
-int n,k,a[N],q[N]={0},h=1,t=0,q1[N],h1=1,t1=0;
+const int N=1e6+10;
+int n,k,a[N],q[N],h=1,t=0,q1[N],h1=1,t1=0;
 
 int main(){
     cin>>n>>k;

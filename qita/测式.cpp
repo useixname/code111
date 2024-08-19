@@ -1,38 +1,31 @@
-#include<bits/stdc++.h>
+#include<cstdio>
+#include<cstring>
 using namespace std;
-const int N=1e5+10;
-int a[N];
+const int N=1e3+10;
+int n;
+char a[N][N];
 
 int main(){
-    long long ans=0,max=1;
-    int n=0;
-    while(scanf("%d",&a[n++])){
-       
+    memset(a,' ',sizeof(a));
+    scanf("%d",&n);
+    int k=n/2+1,t=0;
+    for(int i=1;i<=k;i++){
+        for(int j=k-t;j<=k+t;j++){
+            a[i][j]='*';
+        }
+        t++;
     }
-    long long dp[N],cnt[N];
-    memset(dp,0,sizeof(dp));
-    memset(cnt,0,sizeof(cnt));
-    for(int i=0;i<n;i++){
-        dp[i]=1;
-        cnt[i]=1;
-        for(int j=0;j<i;j++){
-            if(a[j]>a[i]){
-                if(dp[j]+1>dp[i]){
-                    dp[i]=dp[j]+1;
-                    cnt[i]=cnt[j];
-                }
-                else if(dp[j]+1==dp[i]){
-                    cnt[i]+=cnt[j];
-                }
-            }
+    t-=2;
+    for(int i=k+1;i<=n;i++){
+        for(int j=k-t;j<=k+t;j++){
+            a[i][j]='*';
         }
-        if(dp[i]>max){
-            max=dp[i];
-            ans=cnt[i];
-        }
-        else if(dp[i]==max){
-            ans+=cnt[i];
-        }
+        t--;
     }
-    cout<<max<<" "<<ans;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            printf("%c",a[i][j]);
+        }
+        printf("\n");
+    }
 }

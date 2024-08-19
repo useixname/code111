@@ -1,65 +1,29 @@
-#include<bits/stdc++.h>
+// 树状数组 点修+区查 O(nlogn)
+#include <iostream>
+#include <cstring>
+#include <algorithm>
 using namespace std;
 
-#define lc p<<1
-#define rc p<<1|1
-const int N=51e5+10;
-int a[N];
+int n,m,s[500005]; //区间和
 
-struct node{
-    int l,r,sum;
-}tr[N*4];
-
-void build(int p,int l,int r){
-    tr[p]={l,r,a[l]};
-    if(l==r){
-        return;
-    }
-    int m=l+r>>1;
-    build(lc,l,m);
-    build(rc,m+1,r);
-    tr[p].sum=tr[lc].sum+tr[rc].sum;  
+int lowbit(int x){ //提取x的低位2次幂数
+  return x&-x;
 }
-
-void updata(int p,int x,int k){//单点修改
-    if(tr[p].l==x&&tr[p].r==x){
-        tr[p].sum+=k;
-        return;
-    }
-    int m=tr[p].l+tr[p].r>>1;
-    if(x<=m) updata(lc,x,k);
-    else updata(rc,x,k);
-    tr[p].sum=tr[lc].sum+tr[rc].sum;
+void add(int x,int k){ //点修
+  while(x<=n) s[x]+=k, x+=lowbit(x);
 }
-
-
-int query(int p,int x,int y){//区间查询
-    if(tr[p].l>=x&&tr[p].r<=y){
-        return tr[p].sum;
-    }
-    int m=tr[p].l+tr[p].r>>1;
-    int sum=0;
-    if(x<=m) sum+=query(lc,x,y);
-    if(y>m) sum+=query(rc,x,y);
-    return sum;
+int sum(int x){ //前缀和
+  int t=0;
+  while(x) t+=s[x], x-=lowbit(x);
+  return t;
 }
-
 int main(){
-    int n,k;
-    cin>>n>>k;
-    for(int i=1;i<=n;i++){
-        cin>>a[i];
-    }
-    build(1,1,n);
-    while(k--){
-        int q,x,y;
-        cin>>q>>x>>y;
-        if(q==1){
-            updata(1,x,y);
-        }
-        else{
-            cout<<query(1,x,y)<<'\n';
-        }
-    }
-    return 0;
+  cin>>n>>m; int op,x,y;
+  for(int i=1;i<=n;i++)
+    scanf("%d",&y), add(i,y);
+  for(int i=1;i<=m;i++){
+    scanf("%d%d%d",&op,&x,&y);
+    if(op==1) add(x,y);
+    else printf("%d\n",sum(y)-sum(x-1));
+  }
 }

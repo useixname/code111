@@ -1,42 +1,30 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
 using namespace std;
-const int N=55;
-string s1,s2;
+
+const int N=4001;
 int a[N],b[N],c[N];
+int la,lb,lc;
 
-void cheng(string s1,string s2){
-    int n=s1.length(),m=s2.length();
-    int len=n+m-1;
-    for(int i=n;i>=1;i--){
-        a[i]=s1[n-i]-'0';
-    }
-    for(int i=m;i>=1;i--){
-        b[i]=s2[m-i]-'0';
-    }
-    int w=0,flag=0;
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=m;j++){
-            c[i+j-1]+=(a[i]*b[j]);
-            if(i==n&&j==m){
-                if(c[i+j-1]>=10){
-                    w=c[i+j-1]/10;
-                    flag=1;
-                }
-            }
-            c[i+j]+=c[i+j-1]/10;
-            c[i+j-1]%=10;
-        }
-    }
-    if(flag==1){
-        c[len+1]=w;
-    }
-    for(int i=len+flag;i>=1;i--){
-        cout<<c[i];
-    }
+void mul(int a[],int b[],int c[]){ //a*b=c
+  for(int i=1;i<=la;i++)
+    for(int j=1;j<=lb;j++)
+      c[i+j-1]+=a[i]*b[j]; //存乘积
+      
+  for(int i=1;i<lc;i++){
+    c[i+1]+=c[i]/10;  //存进位
+    c[i]%=10;         //存余数
+  }
+  while(c[lc]==0&&lc>1) lc--; //去0  
 }
-
 int main(){
-    cin>>s1>>s2;
-    cheng(s1,s2);
-    return 0;
+  char A[N],B[N];
+  cin>>A>>B;
+  la=strlen(A); lb=strlen(B); lc=la+lb;
+  for(int i=1;i<=la;i++)a[i]=A[la-i]-'0';
+  for(int i=1;i<=lb;i++)b[i]=B[lb-i]-'0';
+  mul(a,b,c);
+  for(int i=lc;i>=1;i--) cout<<c[i];
+  return 0;
 }
